@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import sys
 import glob
 import os
 import argparse
@@ -36,7 +37,7 @@ def get_files(f, args):
     return sorted_list
 
 
-def stream_file(file, args, streamkey):
+def stream_file(file, args, streamkey, iterating=False):
     """
     Create process to stream given file and streamkey
     inpt:
@@ -78,6 +79,10 @@ def stream_file(file, args, streamkey):
             pass
         p.wait()
         time.sleep(1)  # let stream end so there isn't a conflict
+        if iterating:
+            inpt = input('Continue to next file?[y/n] ')
+            if 'N' in inpt.upper():
+                sys.exit()
 
 
 def main(args):
@@ -89,7 +94,7 @@ def main(args):
         files = get_files(escFolder, args)
         for file in files:
             print(file)
-            stream_file(file, args, streamkey)
+            stream_file(file, args, streamkey, iterating=True)
     if args.file:
         file = os.path.abspath(args.file)
         stream_file(file, args, streamkey)
