@@ -23,7 +23,7 @@ Change line 84 to path of angelthump key
 To see all available flags run:
 
 ```
-./streamscript --help
+./streaming --help
 ```
 
 ```
@@ -51,7 +51,7 @@ optional arguments:
 Example running
 
 ```
-./streamscript -F /absolute/path/to/favorite/anime/folder -at 1 -st 0
+./streaming.py -F /absolute/path/to/favorite/anime/folder -at 1 -st 0
 ```
 
 The above will iterate through entire folder where each episode will be run with audio track 1 and subtitle track 0.
