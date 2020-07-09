@@ -23,7 +23,7 @@ Change line 84 to path of angelthump key
 To see all available flags run:
 
 ```
-./streaming --help
+./streaming.py --help
 ```
 
 ```
