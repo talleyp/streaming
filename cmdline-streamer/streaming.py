@@ -82,7 +82,7 @@ def stream_file(file, args, streamkey):
 
 
 def main(args):
-    with open("/home/patrick/Documents/streaming/cmdline-streamer/angelthumpkey", "r") as f:
+    with open("angelthumpkey", "r") as f:
         streamkey = f.read()
     streamkey = streamkey.strip()
     if args.folder:
