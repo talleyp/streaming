@@ -6,7 +6,6 @@ import subprocess
 import re
 import time
 
-
 def get_files(f, args):
     """
     given a folder will return all the files that are not txt, 
@@ -45,8 +44,8 @@ def stream_file(file, args, streamkey):
         streamkey - string for angelthump streameky
     """
     clean_file = re.escape(file)
-    process = 'ffmpeg -re -i "{0}" -c:v libx264 -pix_fmt yuv420p -preset faster -b:v 3000k -maxrate 3500k '.format(
-        file
+    process = 'ffmpeg -re -i "{0}" -c:v libx264 -pix_fmt yuv420p -preset {1} -b:v 3500k -maxrate 4000k '.format(
+        file, args.preset
     )
     if args.subtrack:
         process += '-tune animation -vf subtitles="{0}":si={1} -map 0:0 '.format(
@@ -65,8 +64,8 @@ def stream_file(file, args, streamkey):
         else:
             process += "-map 0:a:0 "
     elif args.audiotrack:
-        process += "-map 0:a:{} ".format(args.audiotrack)
-    process += "-x264-params keyint=60 -c:a aac -strict 2 -ar 44100 -b:a 160k -ac 2 -bufsize 7000k "
+        process += "-map 0:v:0 -map 0:a:{} ".format(args.audiotrack)
+    process += "-x264-params keyint=60 -c:a aac -strict 2 -ar 44100 -b:a 160k -ac 2 -bufsize 4000k "
     process += '-f flv "rtmp://{0}-ingest.angelthump.com:1935/live/{1}"'.format(
         args.ingest, streamkey
     )
@@ -83,14 +82,14 @@ def stream_file(file, args, streamkey):
 
 
 def main(args):
-    with open("angelthumpkey", "r") as f:
+    with open("/home/patrick/Documents/streaming/cmdline-streamer/angelthumpkey", "r") as f:
         streamkey = f.read()
     streamkey = streamkey.strip()
     if args.folder:
         escFolder = args.folder
         files = get_files(escFolder, args)
         for file in files:
-            print(file)
+            print('\n\n',file,'\n\n')
             stream_file(file, args, streamkey)
     if args.file:
         file = os.path.abspath(args.file)
@@ -107,6 +106,7 @@ if __name__ == "__main__":
     parser.add_argument("-at", "--audiotrack", help="Audio track")
     parser.add_argument("--skip", type=int, help="Which episode to start at (0 index)")
     parser.add_argument("--max", type=int, help="Final episode # to stream")
-    parser.add_argument("--ingest",default="nyc", help="Angelthump ingest server to point to: nyc, sfo, ams, fra")
+    parser.add_argument("--ingest",default="sfo", help="Angelthump ingest server to point to: nyc, sfo, ams, fra")
+    parser.add_argument("--preset",default="faster", help="A preset is a collection of options that will provide a certain encoding speed to compression ratio. A slower preset will provide better compression (compression is quality per filesize). This means that, for example, if you target a certain file size or constant bit rate, you will achieve better quality with a slower preset. Similarly, for constant quality encoding, you will simply save bitrate by choosing a slower preset. Options are : ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow")
     args = parser.parse_args()
     main(args)
