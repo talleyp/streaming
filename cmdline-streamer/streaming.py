@@ -107,6 +107,6 @@ if __name__ == "__main__":
     parser.add_argument("--skip", type=int, help="Which episode to start at (0 index)")
     parser.add_argument("--max", type=int, help="Final episode # to stream")
     parser.add_argument("--ingest",default="sfo", help="Angelthump ingest server to point to: nyc, sfo, ams, fra")
-    parser.add_argument("--preset",default="faster", help="A preset is a collection of options that will provide a certain encoding speed to compression ratio. A slower preset will provide better compression (compression is quality per filesize). This means that, for example, if you target a certain file size or constant bit rate, you will achieve better quality with a slower preset. Similarly, for constant quality encoding, you will simply save bitrate by choosing a slower preset. Options are : ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow")
+    parser.add_argument("--preset",default="veryfast", help="A preset is a collection of options that will provide a certain encoding speed to compression ratio. A slower preset will provide better compression (compression is quality per filesize). This means that, for example, if you target a certain file size or constant bit rate, you will achieve better quality with a slower preset. Similarly, for constant quality encoding, you will simply save bitrate by choosing a slower preset. Options are : ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow")
     args = parser.parse_args()
     main(args)
